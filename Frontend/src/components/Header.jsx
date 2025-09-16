@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button.jsx';
 import { Menu, X } from 'lucide-react';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const navItems = [
-    { name: 'Gallery', href: '#gallery' },
-    { name: 'Styles', href: '#styles' },
+    { name: 'Gallery', href: '/gallery', isRoute: true },
+    { name: 'How It Works', href: '#how' },
     { name: 'About', href: '#about' }
   ];
 
-  const handleNavClick = (href) => (e) => {
-    e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const handleNavClick = (item) => (e) => {
+    if (!item.isRoute) {
+      // Handle anchor navigation (for sections on same page)
+      e.preventDefault();
+      const element = document.querySelector(item.href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
     setMobileMenuOpen(false);
   };
@@ -25,37 +30,40 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
-      <div className="max-w-6xl mx-auto px-6 py-4">
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
+      <div className="max-w-6xl mx-auto px-6 py-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center">
-            <div className="w-8 h-8 bg-black rounded-sm flex items-center justify-center">
-              <span className="text-white font-bold text-lg">N</span>
+          <Link to="/" className="flex items-center">
+            <div className="w-8 h-8 border border-black bg-white flex items-center justify-center">
+              <span className="text-black font-light text-lg">F</span>
             </div>
-            <span className="ml-2 text-xl font-medium text-black">NFTify</span>
-          </div>
+            <span className="ml-3 text-2xl font-light text-black">FaceMint</span>
+          </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                onClick={handleNavClick(item.href)}
-                className="text-gray-600 hover:text-black transition-colors text-sm font-medium"
-              >
-                {item.name}
-              </a>
-            ))}
+          <nav className="hidden md:flex items-center space-x-12">
+            {navItems.map((item) => 
+              item.isRoute ? (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="text-gray-600 hover:text-black transition-colors font-light"
+                >
+                  {item.name}
+                </Link>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={handleNavClick(item)}
+                  className="text-gray-600 hover:text-black transition-colors font-light cursor-pointer"
+                >
+                  {item.name}
+                </a>
+              )
+            )}
           </nav>
-
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button className="bg-black text-white hover:bg-gray-800 px-6 py-2 text-sm font-medium">
-              Mint Your NFT
-            </Button>
-          </div>
 
           {/* Mobile menu button */}
           <button
@@ -68,20 +76,31 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-gray-100">
-            <nav className="flex flex-col space-y-3 mt-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  onClick={handleNavClick(item.href)}
-                  className="text-gray-600 hover:text-black transition-colors py-2 text-sm font-medium"
-                >
-                  {item.name}
-                </a>
-              ))}
-              <Button className="bg-black text-white hover:bg-gray-800 w-full mt-4 py-2 text-sm font-medium">
-                Mint Your NFT
+          <div className="md:hidden mt-4 pb-4 border-t border-gray-200">
+            <nav className="flex flex-col space-y-4 mt-4">
+              {navItems.map((item) => 
+                item.isRoute ? (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-gray-600 hover:text-black transition-colors py-2 font-light"
+                  >
+                    {item.name}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    onClick={handleNavClick(item)}
+                    className="text-gray-600 hover:text-black transition-colors py-2 font-light cursor-pointer"
+                  >
+                    {item.name}
+                  </a>
+                )
+              )}
+              <Button className="bg-black text-white hover:bg-gray-800 w-full mt-4 py-3 font-light">
+                Connect Wallet
               </Button>
             </nav>
           </div>
