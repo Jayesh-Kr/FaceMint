@@ -1,4 +1,6 @@
 import express from 'express';
+import fs from 'fs';
+import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -23,18 +25,51 @@ import {
 const app = express();
 const connection = new Connection(clusterApiUrl("devnet"));
 
-const privateKey = process.env.PRIVATE_KEY;
-if(!privateKey) {
+const keyArray = process.env.PRIVATE_KEY;
+if(!keyArray) {
     console.error("Private key not found in .env");
-    return;
+    throw new Error("Private key not found");
 }
 
-import pinata from './utils/pinata';
+const privateKey = new Uint8Array(JSON.parse(keyArray));
+
+import pinata from './utils/pinata.js';
 
 const umi = createUmi(connection.rpcEndpoint);
 const user = umi.eddsa.createKeypairFromSecretKey(privateKey);
 
-let arrayofMetadataURL = [];
+// File path to store NFT metadata URLs
+const NFT_DATA_FILE = path.join(process.cwd(), 'nft-metadata.json');
+
+// Helper function to read NFT data from file
+const readNFTData = () => {
+    try {
+        if (fs.existsSync(NFT_DATA_FILE)) {
+            const data = fs.readFileSync(NFT_DATA_FILE, 'utf8');
+            return JSON.parse(data);
+        }
+        return [];
+    } catch (error) {
+        console.error('Error reading NFT data file:', error);
+        return [];
+    }
+};
+
+// Helper function to write NFT data to file
+const writeNFTData = (data) => {
+    try {
+        fs.writeFileSync(NFT_DATA_FILE, JSON.stringify(data, null, 2));
+    } catch (error) {
+        console.error('Error writing NFT data file:', error);
+    }
+};
+
+// Helper function to add new NFT metadata URL
+const addNFTMetadata = (metadataURL) => {
+    const existingData = readNFTData();
+    existingData.push(metadataURL);
+    writeNFTData(existingData);
+};
 
 app.use(express.json());
 
@@ -105,7 +140,7 @@ app.post('/mintNFT', async (req, res) => {
         const createdNft = await fetchDigitalAsset(umi, mint.publicKey);
 
         console.log("✅ NFT minted successfully!");
-        arrayofMetadataURL.push(metadataURL);
+        addNFTMetadata(metadataURL);
         res.status(200).json({
             success: true,
             message: "NFT minted successfully",
@@ -185,15 +220,19 @@ app.post('/verifyNFT', async (req, res) => {
 })
 
 app.get('/latestNFT', (req,res) => {
-    
     try {
-
+        const nftMetadataURLs = readNFTData();
+        
         res.status(200).json({
             success: true,
-            latestNFT : arrayofMetadataURL
-        })
+            latestNFT: nftMetadataURLs
+        });
     } catch(err) {
         console.log("Error while sending latest response : " , err.message);
+        res.status(500).json({
+            success: false,
+            error: "Failed to retrieve NFT data"
+        });
     }
 })
 
