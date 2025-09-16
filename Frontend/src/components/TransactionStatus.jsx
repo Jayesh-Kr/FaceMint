@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button.jsx';
 const TransactionStatus = ({ 
   status = 'pending', // 'pending', 'confirmed', 'failed'
   transactionSignature = 'AbCdEfGhIjKlMnOpQrStUvWxYz1234567890',
-  slot = null,
   onClose
 }) => {
   const copyToClipboard = (text) => {
@@ -100,25 +99,12 @@ const TransactionStatus = ({
               </div>
             </div>
 
-            {slot && status === 'confirmed' && (
-              <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">
-                  Slot
-                </label>
-                <div className="p-3 bg-gray-50 border">
-                  <code className="text-sm font-mono text-gray-800">
-                    {slot.toLocaleString()}
-                  </code>
-                </div>
-              </div>
-            )}
-
             <div>
               <label className="text-sm font-medium text-gray-700 block mb-1">
                 Network
               </label>
               <div className="p-3 bg-gray-50 border">
-                <span className="text-sm text-gray-800">Solana Mainnet</span>
+                <span className="text-sm text-gray-800">Solana Devnet</span>
               </div>
             </div>
           </div>
@@ -129,10 +115,10 @@ const TransactionStatus = ({
               <Button
                 variant="outline"
                 className="w-full border-gray-400 text-gray-600 hover:border-black hover:text-black"
-                onClick={() => window.open(`https://solscan.io/tx/${transactionSignature}`, '_blank')}
+                onClick={() => window.open(`https://explorer.solana.com/address/${transactionSignature}?cluster=devnet`, '_blank')}
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
-                View on Solscan
+                View on Solana Explorer
               </Button>
             )}
             
