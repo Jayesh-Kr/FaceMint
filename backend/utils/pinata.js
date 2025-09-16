@@ -1,9 +1,7 @@
 import {PinataSDK} from 'pinata';
 import dotenv from 'dotenv';
 
-dotenv.config({
-    path: '../.env'
-})
+dotenv.config();
 
 const PINATA_JWT = process.env.PINATA_JWT;
 const pinataGateway = process.env.PINATA_GATEWAY;
