@@ -39,12 +39,12 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
+    <header className="sticky top-0 z-50 bg-white/95 dark:bg-black/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-900 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center group">
-            <div className="w-8 h-8 border border-black dark:border-white bg-white dark:bg-gray-900 flex items-center justify-center transition-all duration-300 group-hover:bg-black group-hover:dark:bg-white">
+            <div className="w-8 h-8 border border-black dark:border-white bg-white dark:bg-black flex items-center justify-center transition-all duration-300 group-hover:bg-black group-hover:dark:bg-white">
               <span className="text-black dark:text-white font-mono text-lg group-hover:text-white group-hover:dark:text-black transition-colors duration-300">F</span>
             </div>
             <span className="ml-3 text-xl font-mono font-medium text-black dark:text-white">FaceMint</span>
@@ -80,7 +80,7 @@ const Header = () => {
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
+              className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-900 transition-all duration-300"
               aria-label="Toggle theme"
             >
               {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
@@ -98,7 +98,7 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-gray-100 dark:border-gray-800">
+          <div className="md:hidden mt-4 pb-4 border-t border-gray-100 dark:border-gray-900">
             <nav className="flex flex-col gap-4 mt-4">
               {navItems.map((item) => 
                 item.isRoute ? (
