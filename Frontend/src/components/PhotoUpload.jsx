@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button.jsx';
 import { Upload, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import TransactionStatus from './TransactionStatus.jsx';
+import pinata from '../../utils/pinata.js';
 
 const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) => {
   const [isDragOver, setIsDragOver] = useState(false);
@@ -15,7 +16,6 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
   const [showTransaction, setShowTransaction] = useState(false);
   const [transactionStatus, setTransactionStatus] = useState('pending');
   const [transactionSignature, setTransactionSignature] = useState('');
-  const [slot, setSlot] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleDragOver = (e) => {
@@ -85,33 +85,63 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
   };
 
   const handleMintNFT = async () => {
-    if (!walletAddress || !nftName) {
-      alert('Please fill in wallet address and NFT name');
+    if (!walletAddress || !nftName || !selectedPhoto) {
+      alert('Please fill in wallet address, NFT name, and select a photo');
       return;
     }
-    
+
     setIsLoading(true);
     onMintingStateChange?.(3); // Step 3: Minting in progress
-    
-    // Generate a mock Solana transaction signature (base58 encoded, ~88 characters)
-    const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-    let mockSignature = '';
-    for (let i = 0; i < 88; i++) {
-      mockSignature += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    
-    setTransactionSignature(mockSignature);
     setTransactionStatus('pending');
     setShowTransaction(true);
-    
-    // Simulate Solana transaction process (faster than Ethereum)
-    setTimeout(() => {
-      // Simulate transaction confirmation
+
+    try {
+      // Step 1: Upload the photo to Pinata
+      console.log("Uploading photo to Pinata...");
+      const uploadPhoto = await pinata.upload.public.file(selectedPhoto);
+      
+      if (!uploadPhoto.cid) {
+        throw new Error("Failed to get IPFS hash for uploaded image");
+      }
+
+      const imageURL = `https://orange-given-mink-808.mypinata.cloud/ipfs/${uploadPhoto.cid}`;
+      console.log("Image uploaded successfully:", imageURL);
+
+      // Step 2: Mint NFT by calling backend API
+      console.log("Minting NFT...");
+      const mintResponse = await fetch('http://localhost:3000/mintNFT', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: nftName,
+          walletAddress: walletAddress,
+          image: imageURL,
+          description: nftDescription || "My Face Punk NFT"
+        }),
+      });
+
+      const mintData = await mintResponse.json();
+
+      if (!mintResponse.ok || !mintData.success) {
+        throw new Error(mintData.error || 'Failed to mint NFT');
+      }
+
+      console.log("NFT minted successfully:", mintData);
+      const nftAddress = mintData.data.nftAddress;
+      setTransactionSignature(mintData.data.mintAddress || 'N/A');
+
+      // Success - update UI
       setTransactionStatus('confirmed');
-      setSlot(Math.floor(Math.random() * 10000000) + 200000000); // Mock slot number
+
+    } catch (error) {
+      console.error("Error during NFT minting process:", error);
+      setTransactionStatus('failed');
+      alert(`Error: ${error.message}`);
+    } finally {
       setIsLoading(false);
-      onMintingStateChange?.(3); // Keep at step 3: NFT sent to wallet
-    }, 2000); // 2 seconds to simulate Solana's faster confirmation time
+    }
   };
   return (
     <div
@@ -278,7 +308,6 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
         <TransactionStatus
           status={transactionStatus}
           transactionSignature={transactionSignature}
-          slot={slot}
           onClose={handleCloseTransaction}
         />
       )}
