@@ -3,7 +3,7 @@ import { Clock, DollarSign, Users } from 'lucide-react';
 
 const ProblemStatement = () => {
   return (
-    <section className="w-full py-20 px-6 md:px-12 bg-white">
+    <section id="about" className="w-full py-20 px-6 md:px-12 bg-white">
       <div className="max-w-6xl mx-auto text-center space-y-16">
         
         <div className="space-y-6">
