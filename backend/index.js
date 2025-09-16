@@ -34,6 +34,8 @@ import pinata from './utils/pinata';
 const umi = createUmi(connection.rpcEndpoint);
 const user = umi.eddsa.createKeypairFromSecretKey(privateKey);
 
+let arrayofMetadataURL = [];
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -103,7 +105,7 @@ app.post('/mintNFT', async (req, res) => {
         const createdNft = await fetchDigitalAsset(umi, mint.publicKey);
 
         console.log("✅ NFT minted successfully!");
-
+        arrayofMetadataURL.push(metadataURL);
         res.status(200).json({
             success: true,
             message: "NFT minted successfully",
@@ -179,6 +181,19 @@ app.post('/verifyNFT', async (req, res) => {
             success: false,
             error: "Failed to verify NFT collection. Please try again."
         });
+    }
+})
+
+app.get('/latestNFT', (req,res) => {
+    
+    try {
+
+        res.status(200).json({
+            success: true,
+            latestNFT : arrayofMetadataURL
+        })
+    } catch(err) {
+        console.log("Error while sending latest response : " , err.message);
     }
 })
 
