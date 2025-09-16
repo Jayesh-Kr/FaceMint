@@ -115,7 +115,7 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
   };
   return (
     <div
-      className={`relative border-2 border-dashed border-gray-400 bg-white p-12 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 hover:border-black ${isDragOver ? 'border-black bg-gray-50' : ''} ${className}`}
+      className={`relative border-2 border-dashed border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-800 p-12 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 hover:border-black dark:hover:border-white ${isDragOver ? 'border-black dark:border-white bg-gray-50 dark:bg-gray-700' : ''} ${className}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
@@ -136,13 +136,13 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <Upload className="w-16 h-16 text-gray-400 mx-auto" />
+          <Upload className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto" />
           <div className="space-y-2">
-            <h3 className="text-xl font-light text-black">Upload Photo to Mint NFT</h3>
-            <p className="text-sm text-gray-500">Drag & drop or click to select</p>
-            <p className="text-xs text-gray-400">JPG, PNG, JPEG • Max 10MB</p>
+            <h3 className="text-xl font-light text-black dark:text-white">Upload Photo to Mint NFT</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Drag & drop or click to select</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500">JPG, PNG, JPEG • Max 10MB</p>
           </div>
-          <p className="text-sm text-black font-medium border-t border-gray-200 pt-4 mt-4">
+          <p className="text-sm text-black dark:text-white font-medium border-t border-gray-200 dark:border-gray-600 pt-4 mt-4">
             Your NFT will be sent directly to your wallet
           </p>
         </motion.div>
@@ -163,7 +163,7 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
             <motion.img 
               src={previewUrl} 
               alt="Preview" 
-              className="w-48 h-48 object-cover border border-gray-300 mx-auto"
+              className="w-48 h-48 object-cover border border-gray-300 dark:border-gray-600 mx-auto"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.2 }}
@@ -176,7 +176,7 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
               <Button 
                 variant="outline" 
                 onClick={clearPhoto}
-                className="border-gray-400 text-gray-600 hover:border-black hover:text-black mt-4"
+                className="border-gray-400 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white mt-4"
               >
                 <X className="w-4 h-4 mr-2" />
                 Remove Photo
@@ -198,7 +198,7 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.5 }}
             >
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Wallet Address *
               </label>
               <input
@@ -206,7 +206,7 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
                 value={walletAddress}
                 onChange={(e) => setWalletAddress(e.target.value)}
                 placeholder="0x..."
-                className="w-full p-3 border border-gray-300 focus:border-black focus:outline-none transition-colors"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-black dark:text-white focus:border-black dark:focus:border-white focus:outline-none transition-colors"
                 required
                 onClick={(e) => e.stopPropagation()}
               />
@@ -218,7 +218,7 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.6 }}
             >
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 NFT Name *
               </label>
               <input
@@ -226,7 +226,7 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
                 value={nftName}
                 onChange={(e) => setNftName(e.target.value)}
                 placeholder="My Awesome NFT"
-                className="w-full p-3 border border-gray-300 focus:border-black focus:outline-none transition-colors"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-black dark:text-white focus:border-black dark:focus:border-white focus:outline-none transition-colors"
                 required
                 onClick={(e) => e.stopPropagation()}
               />
@@ -238,7 +238,7 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.7 }}
             >
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Description (Optional)
               </label>
               <textarea
@@ -246,7 +246,7 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
                 onChange={(e) => setNftDescription(e.target.value)}
                 placeholder="Describe your NFT..."
                 rows={3}
-                className="w-full p-3 border border-gray-300 focus:border-black focus:outline-none transition-colors resize-none"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-black dark:text-white focus:border-black dark:focus:border-white focus:outline-none transition-colors resize-none"
                 onClick={(e) => e.stopPropagation()}
               />
             </motion.div>
@@ -259,7 +259,7 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
               whileTap={{ scale: 0.98 }}
             >
               <Button 
-                className="w-full bg-black text-white hover:bg-gray-800 border-0 py-3"
+                className="w-full bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 border-0 py-3"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleMintNFT();

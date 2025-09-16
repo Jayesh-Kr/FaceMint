@@ -64,13 +64,13 @@ const Gallery = () => {
   };
 
   return (
-    <section className="w-full py-24 px-6 md:px-12 bg-white min-h-screen">
+    <section className="w-full py-24 px-6 md:px-12 bg-white dark:bg-gray-900 min-h-screen">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
         <div className="text-center space-y-8 mb-16">
           <motion.h1 
-            className="text-5xl md:text-7xl font-light tracking-tight text-black leading-tight"
+            className="text-5xl md:text-7xl font-light tracking-tight text-black dark:text-white leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -79,7 +79,7 @@ const Gallery = () => {
           </motion.h1>
 
           <motion.p 
-            className="text-xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto font-light leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -97,16 +97,16 @@ const Gallery = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <div className="text-center space-y-2">
-            <div className="text-3xl font-light text-black">{nfts.length}</div>
-            <div className="text-gray-600">Total NFTs Minted</div>
+            <div className="text-3xl font-light text-black dark:text-white">{nfts.length}</div>
+            <div className="text-gray-600 dark:text-gray-300">Total NFTs Minted</div>
           </div>
           <div className="text-center space-y-2">
-            <div className="text-3xl font-light text-black">{new Set(nfts.map(nft => nft.owner)).size}</div>
-            <div className="text-gray-600">Unique Owners</div>
+            <div className="text-3xl font-light text-black dark:text-white">{new Set(nfts.map(nft => nft.owner)).size}</div>
+            <div className="text-gray-600 dark:text-gray-300">Unique Owners</div>
           </div>
           <div className="text-center space-y-2">
-            <div className="text-3xl font-light text-black">100%</div>
-            <div className="text-gray-600">On Solana Blockchain</div>
+            <div className="text-3xl font-light text-black dark:text-white">100%</div>
+            <div className="text-gray-600 dark:text-gray-300">On Solana Blockchain</div>
           </div>
         </motion.div>
 
@@ -115,35 +115,34 @@ const Gallery = () => {
           {nfts.map((nft, index) => (
             <motion.div
               key={nft.id}
-              className="bg-white border border-gray-200 hover:border-black transition-colors duration-300 group"
+              className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors duration-300 group"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 + (index * 0.1) }}
-              whileHover={{ y: -4 }}
             >
               {/* NFT Image */}
-              <div className="aspect-square overflow-hidden bg-gray-100">
+              <div className="aspect-square overflow-hidden bg-gray-100 dark:bg-gray-700">
                 <img 
                   src={nft.image} 
                   alt={nft.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
               {/* NFT Details */}
               <div className="p-6 space-y-4">
                 <div>
-                  <h3 className="text-xl font-medium text-black mb-2">{nft.name}</h3>
+                  <h3 className="text-xl font-medium text-black dark:text-white mb-2">{nft.name}</h3>
                   
                   <div className="space-y-3 text-sm">
                     {/* Owner */}
-                    <div className="flex items-center gap-2 text-gray-600">
+                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
                       <User className="w-4 h-4" />
                       <span>Owner: {truncateAddress(nft.owner)}</span>
                     </div>
                     
                     {/* Mint Date */}
-                    <div className="flex items-center gap-2 text-gray-600">
+                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
                       <Calendar className="w-4 h-4" />
                       <span>Minted: {new Date(nft.mintDate).toLocaleDateString()}</span>
                     </div>
@@ -153,7 +152,7 @@ const Gallery = () => {
                 {/* Transaction Link */}
                 <button
                   onClick={() => openSolscan(nft.transactionSignature)}
-                  className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 hover:border-black hover:bg-black hover:text-white transition-colors duration-300 text-sm"
+                  className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 dark:border-gray-600 hover:border-black dark:hover:border-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors duration-300 text-sm"
                 >
                   <ExternalLink className="w-4 h-4" />
                   View on Solscan
@@ -170,27 +169,27 @@ const Gallery = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 1.2 }}
         >
-          <button className="px-8 py-3 border border-gray-300 hover:border-black hover:bg-black hover:text-white transition-colors duration-300 text-sm font-medium">
+          <button className="px-8 py-3 border border-gray-300 dark:border-gray-600 hover:border-black dark:hover:border-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors duration-300 text-sm font-medium">
             Load More NFTs
           </button>
         </motion.div>
 
         {/* Info Section */}
         <motion.div 
-          className="border-t border-gray-200 pt-16 mt-16"
+          className="border-t border-gray-200 dark:border-gray-700 pt-16 mt-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.4 }}
         >
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-2xl font-light text-black">Ready to Create Your Own NFT?</h2>
-            <p className="text-gray-600 leading-relaxed">
+            <h2 className="text-2xl font-light text-black dark:text-white">Ready to Create Your Own NFT?</h2>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
               Join the growing community of creators who have minted their photos as NFTs on Solana. 
               Fast, affordable, and secure - start your digital identity journey today.
             </p>
             <a 
               href="/"
-              className="inline-block px-8 py-3 bg-black text-white hover:bg-gray-800 transition-colors duration-300 text-sm font-medium"
+              className="inline-block px-8 py-3 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors duration-300 text-sm font-medium"
             >
               Mint Your Photo NFT
             </a>

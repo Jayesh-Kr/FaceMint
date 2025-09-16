@@ -24,13 +24,13 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section id="how" className="w-full py-20 px-6 md:px-12 bg-white">
+    <section id="how" className="w-full py-20 px-6 md:px-12 bg-white dark:bg-gray-900">
       <div className="max-w-6xl mx-auto">
         <div className="text-center space-y-4 mb-16">
-          <h2 className="text-4xl md:text-5xl font-light text-black">
+          <h2 className="text-4xl md:text-5xl font-light text-black dark:text-white">
             How It Works
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto font-light">
             Transform your photos into NFTs in three simple steps
           </p>
         </div>
@@ -39,19 +39,19 @@ const HowItWorks = () => {
           {steps.map((step, index) => (
             <div key={index} className="text-center space-y-6">
               <div className="flex flex-col items-center space-y-4">
-                <div className="w-16 h-16 border border-black bg-white flex items-center justify-center">
+                <div className="w-16 h-16 border border-black dark:border-white bg-white dark:bg-gray-800 flex items-center justify-center text-black dark:text-white">
                   {step.icon}
                 </div>
-                <div className="w-8 h-8 border border-gray-400 bg-white flex items-center justify-center text-sm font-light">
+                <div className="w-8 h-8 border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-800 flex items-center justify-center text-sm font-light text-black dark:text-white">
                   {step.step}
                 </div>
               </div>
               
               <div className="space-y-3">
-                <h3 className="text-xl font-light text-black">
+                <h3 className="text-xl font-light text-black dark:text-white">
                   {step.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                   {step.description}
                 </p>
               </div>

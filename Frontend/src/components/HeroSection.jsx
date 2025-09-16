@@ -17,8 +17,20 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="w-full py-24 px-6 md:px-12 bg-white">
-      <div className="max-w-6xl mx-auto">
+    <section className="w-full py-24 px-6 md:px-12 bg-white dark:bg-gray-900 relative overflow-hidden transition-colors duration-300">
+      {/* Grid Background */}
+      <div 
+        className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(0, 0, 0, 1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 0, 0, 1) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px'
+        }}
+      ></div>
+      
+      <div className="max-w-6xl mx-auto relative z-10">
         
         {/* Hero Text - Show only during initial state (step 1) */}
         {currentStep === 1 && (
@@ -28,11 +40,11 @@ const HeroSection = () => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-5xl md:text-7xl font-light tracking-tight text-black leading-tight">
+            <h1 className="text-5xl md:text-7xl font-light tracking-tight text-black dark:text-white leading-tight">
               Mint Your Photo<br />as an NFT Instantly
             </h1>
 
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto font-light leading-relaxed">
               Upload a photo, mint it as an NFT, and have it delivered directly to your wallet.<br />
               Own your digital identity with FaceMint.
             </p>
@@ -44,7 +56,7 @@ const HeroSection = () => {
           <div className="max-w-4xl mx-auto mb-16">
             <div className="relative">
               {/* Progress Line Background - spans from step 1 to step 3 */}
-              <div className="hidden md:block absolute top-4 h-0.5 bg-gray-300" 
+              <div className="hidden md:block absolute top-4 h-0.5 bg-gray-300 dark:bg-gray-600" 
                    style={{ 
                      left: 'calc(16.67% + 1rem)', 
                      right: 'calc(16.67% + 1rem)',
@@ -53,7 +65,7 @@ const HeroSection = () => {
               
               {/* Animated Progress Line - grows from step 1 to step 2 when photo uploaded */}
               <motion.div 
-                className="hidden md:block absolute top-4 h-0.5 bg-black"
+                className="hidden md:block absolute top-4 h-0.5 bg-black dark:bg-white"
                 style={{ 
                   left: 'calc(16.67% + 1rem)',
                   transformOrigin: 'left center'
@@ -71,7 +83,7 @@ const HeroSection = () => {
               
               {/* Second progress line segment - from step 2 to step 3 when minting starts */}
               <motion.div 
-                className="hidden md:block absolute top-4 h-0.5 bg-black"
+                className="hidden md:block absolute top-4 h-0.5 bg-black dark:bg-white"
                 style={{ 
                   left: 'calc(50% + 0.5rem)',
                   transformOrigin: 'left center'
@@ -90,80 +102,39 @@ const HeroSection = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center relative">
                 {/* Step 1 */}
                 <div className="space-y-3">
-                  <motion.div 
-                    className={`w-8 h-8 border text-black mx-auto flex items-center justify-center font-light ${
-                      currentStep >= 1 ? 'border-black bg-black text-white' : 'border-black bg-white text-black'
-                    }`}
-                    animate={{
-                      backgroundColor: currentStep >= 1 ? '#000000' : '#ffffff',
-                      color: currentStep >= 1 ? '#ffffff' : '#000000'
-                    }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
-                  >
+                  <div className={`w-8 h-8 border mx-auto flex items-center justify-center font-light ${
+                    currentStep >= 1 ? 'border-black dark:border-white bg-black dark:bg-white text-white dark:text-black' : 'border-black dark:border-white bg-white dark:bg-gray-900 text-black dark:text-white'
+                  } transition-all duration-300`}>
                     1
-                  </motion.div>
-                  <motion.p 
-                    className={currentStep >= 1 ? 'text-gray-600' : 'text-gray-400'}
-                    animate={{
-                      color: currentStep >= 1 ? '#4b5563' : '#9ca3af'
-                    }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
-                  >
+                  </div>
+                  <p className={`${currentStep >= 1 ? 'text-gray-600 dark:text-gray-300' : 'text-gray-400 dark:text-gray-500'} transition-colors duration-300`}>
                     Upload your photo
-                  </motion.p>
+                  </p>
                 </div>
                 
                 {/* Step 2 */}
                 <div className="space-y-3">
-                  <motion.div 
-                    className={`w-8 h-8 border mx-auto flex items-center justify-center font-light ${
-                      currentStep >= 2 ? 'border-black bg-black text-white' : 
-                      currentStep >= 1 ? 'border-black bg-white text-black' : 'border-gray-300 bg-white text-gray-400'
-                    }`}
-                    animate={{
-                      borderColor: currentStep >= 1 ? '#000000' : '#d1d5db',
-                      backgroundColor: currentStep >= 2 ? '#000000' : '#ffffff',
-                      color: currentStep >= 2 ? '#ffffff' : currentStep >= 1 ? '#000000' : '#9ca3af'
-                    }}
-                    transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-                  >
+                  <div className={`w-8 h-8 border mx-auto flex items-center justify-center font-light ${
+                    currentStep >= 2 ? 'border-black dark:border-white bg-black dark:bg-white text-white dark:text-black' : 
+                    currentStep >= 1 ? 'border-black dark:border-white bg-white dark:bg-gray-900 text-black dark:text-white' : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-400 dark:text-gray-500'
+                  } transition-all duration-300`}>
                     2
-                  </motion.div>
-                  <motion.p 
-                    className={currentStep >= 1 ? 'text-gray-600' : 'text-gray-400'}
-                    animate={{
-                      color: currentStep >= 1 ? '#4b5563' : '#9ca3af'
-                    }}
-                    transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-                  >
+                  </div>
+                  <p className={`${currentStep >= 1 ? 'text-gray-600 dark:text-gray-300' : 'text-gray-400 dark:text-gray-500'} transition-colors duration-300`}>
                     Mint as NFT
-                  </motion.p>
+                  </p>
                 </div>
                 
                 {/* Step 3 */}
                 <div className="space-y-3">
-                  <motion.div 
-                    className={`w-8 h-8 border mx-auto flex items-center justify-center font-light ${
-                      currentStep >= 3 ? 'border-black bg-black text-white' : 'border-gray-300 bg-white text-gray-400'
-                    }`}
-                    animate={{
-                      borderColor: currentStep >= 3 ? '#000000' : '#d1d5db',
-                      backgroundColor: currentStep >= 3 ? '#000000' : '#ffffff',
-                      color: currentStep >= 3 ? '#ffffff' : '#9ca3af'
-                    }}
-                    transition={{ duration: 0.6, ease: 'easeOut', delay: 0.4 }}
-                  >
+                  <div className={`w-8 h-8 border mx-auto flex items-center justify-center font-light ${
+                    currentStep >= 3 ? 'border-black dark:border-white bg-black dark:bg-white text-white dark:text-black' : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-400 dark:text-gray-500'
+                  } transition-all duration-300`}>
                     3
-                  </motion.div>
-                  <motion.p 
-                    className={currentStep >= 3 ? 'text-gray-600' : 'text-gray-400'}
-                    animate={{
-                      color: currentStep >= 3 ? '#4b5563' : '#9ca3af'
-                    }}
-                    transition={{ duration: 0.6, ease: 'easeOut', delay: 0.4 }}
-                  >
+                  </div>
+                  <p className={`${currentStep >= 3 ? 'text-gray-600 dark:text-gray-300' : 'text-gray-400 dark:text-gray-500'} transition-colors duration-300`}>
                     NFT sent to your wallet
-                  </motion.p>
+                  </p>
                 </div>
               </div>
             </div>

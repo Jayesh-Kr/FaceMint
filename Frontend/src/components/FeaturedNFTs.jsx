@@ -38,7 +38,7 @@ const FeaturedNFTs = () => {
   };
 
   return (
-    <section className="w-full py-16 px-6 md:px-12 bg-white">
+    <section className="w-full py-16 px-6 md:px-12 bg-white dark:bg-gray-900">
       <div className="max-w-6xl mx-auto">
         
         {/* Section Header */}
@@ -48,10 +48,10 @@ const FeaturedNFTs = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl md:text-4xl font-light tracking-tight text-black">
+          <h2 className="text-3xl md:text-4xl font-light tracking-tight text-black dark:text-white">
             Featured NFTs
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto font-light">
             Discover unique photo NFTs minted by our community
           </p>
         </motion.div>
@@ -61,28 +61,27 @@ const FeaturedNFTs = () => {
           {featuredNFTs.map((nft, index) => (
             <motion.div
               key={nft.id}
-              className="bg-white border border-gray-200 hover:border-black transition-all duration-300 group hover:shadow-lg"
+              className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors duration-300 group"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              whileHover={{ y: -8 }}
             >
               {/* NFT Image */}
-              <div className="aspect-square overflow-hidden bg-gray-100">
+              <div className="aspect-square overflow-hidden bg-gray-100 dark:bg-gray-700">
                 <img 
                   src={nft.image} 
                   alt={nft.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
               {/* NFT Details */}
               <div className="p-6 space-y-4">
                 <div>
-                  <h3 className="text-xl font-medium text-black mb-3">{nft.name}</h3>
+                  <h3 className="text-xl font-medium text-black dark:text-white mb-3">{nft.name}</h3>
                   
                   {/* Owner */}
-                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-4">
                     <User className="w-4 h-4" />
                     <span>Owner: {truncateAddress(nft.owner)}</span>
                   </div>
@@ -91,7 +90,7 @@ const FeaturedNFTs = () => {
                 {/* View Transaction Button */}
                 <motion.button
                   onClick={() => openSolscan(nft.transactionSignature)}
-                  className="w-full flex items-center justify-center gap-2 py-3 px-4 border border-gray-300 hover:border-black hover:bg-black hover:text-white transition-all duration-300 text-sm font-medium"
+                  className="w-full flex items-center justify-center gap-2 py-3 px-4 border border-gray-300 dark:border-gray-600 hover:border-black dark:hover:border-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-300 text-sm font-medium"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -112,7 +111,7 @@ const FeaturedNFTs = () => {
         >
           <Link 
             to="/gallery"
-            className="inline-flex items-center gap-2 text-black hover:text-gray-600 transition-colors font-medium"
+            className="inline-flex items-center gap-2 text-black dark:text-white hover:text-gray-600 dark:hover:text-gray-300 transition-colors font-medium"
           >
             View All NFTs
             <ExternalLink className="w-4 h-4" />

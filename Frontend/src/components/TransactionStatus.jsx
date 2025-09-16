@@ -57,7 +57,7 @@ const TransactionStatus = ({
       exit={{ opacity: 0 }}
     >
       <motion.div
-        className="bg-white max-w-md w-full p-8 space-y-6 text-center"
+        className="bg-white dark:bg-gray-800 max-w-md w-full p-8 space-y-6 text-center"
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
@@ -80,22 +80,22 @@ const TransactionStatus = ({
         </div>
 
         {/* Transaction Details */}
-        <div className="space-y-4 border-t border-gray-200 pt-6">
+        <div className="space-y-4 border-t border-gray-200 dark:border-gray-600 pt-6">
           <div className="text-left space-y-3">
             <div>
-              <label className="text-sm font-medium text-gray-700 block mb-1">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1">
                 Transaction Signature
               </label>
-              <div className="flex items-center gap-2 p-3 bg-gray-50 border">
-                <code className="text-xs font-mono text-gray-800 flex-1 overflow-hidden">
+              <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
+                <code className="text-xs font-mono text-gray-800 dark:text-gray-200 flex-1 overflow-hidden">
                   {transactionSignature}
                 </code>
                 <button
                   onClick={() => copyToClipboard(transactionSignature)}
-                  className="p-1 hover:bg-gray-200 transition-colors"
+                  className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                   title="Copy transaction signature"
                 >
-                  <Copy className="w-4 h-4 text-gray-600" />
+                  <Copy className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                 </button>
               </div>
             </div>
