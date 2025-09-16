@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config();
+import cors from 'cors';
 
 import {
   createNft,
@@ -72,7 +73,7 @@ const addNFTMetadata = (metadataURL) => {
 };
 
 app.use(express.json());
-
+app.use(cors());
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
@@ -136,9 +137,6 @@ app.post('/mintNFT', async (req, res) => {
         console.log("Sending transaction to blockchain...");
         const result = await transaction.sendAndConfirm(umi, {send: {commitment: "finalized"}});
         
-        console.log("Fetching created NFT details...");
-        const createdNft = await fetchDigitalAsset(umi, mint.publicKey);
-
         console.log("✅ NFT minted successfully!");
         addNFTMetadata(metadataURL);
         res.status(200).json({
@@ -146,7 +144,7 @@ app.post('/mintNFT', async (req, res) => {
             message: "NFT minted successfully",
             data: {
                 mintAddress: mint.publicKey.toString(),
-                nftAddress: createdNft.mint.publicKey.toString(),
+                nftAddress: mint.publicKey.toString(),
                 name: name,
                 image: image,
                 walletAddress: walletAddress
