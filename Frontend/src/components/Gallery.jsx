@@ -12,9 +12,22 @@ const Gallery = () => {
         setLoading(true);
         // Fetch the latest NFT metadata URLs from the backend
         const response = await fetch('http://localhost:3000/latestNFT');
-        const data = await response.json();
         
-        if (data.success && data.latestNFT) {
+        // Check if the response is ok
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        // Check if the response is JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Server returned non-JSON response. Make sure the backend server is running on port 3000.');
+        }
+        
+        const data = await response.json();
+        console.log('Backend response:', data);
+        
+        if (data.success && data.latestNFT && data.latestNFT.length > 0) {
           // Fetch metadata for each URL
           const nftPromises = data.latestNFT.map(async (url, index) => {
             try {
@@ -37,11 +50,21 @@ const Gallery = () => {
           const validNFTs = nftData.filter(nft => nft !== null);
           setNfts(validNFTs);
         } else {
-          setError('Failed to fetch NFT data');
+          // If no NFTs are available, set empty array instead of error
+          console.log('No NFTs available yet');
+          setNfts([]);
         }
       } catch (err) {
         console.error('Error fetching NFTs:', err);
-        setError('Failed to load NFTs');
+        
+        // Provide more specific error messages
+        if (err.message.includes('Failed to fetch') || err.message.includes('ERR_CONNECTION_REFUSED')) {
+          setError('Cannot connect to backend server. Please make sure the server is running on localhost:3000');
+        } else if (err.message.includes('non-JSON response')) {
+          setError(err.message);
+        } else {
+          setError('Failed to load NFTs. Please try again.');
+        }
       } finally {
         setLoading(false);
       }
