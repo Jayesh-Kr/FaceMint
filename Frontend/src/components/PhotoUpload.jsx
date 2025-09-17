@@ -109,7 +109,7 @@ const PhotoUpload = ({ onPhotoSelect, onMintingStateChange, className = "" }) =>
 
       // Step 2: Mint NFT by calling backend API
       console.log("Minting NFT...");
-      const mintResponse = await fetch('http://localhost:3000/mintNFT', {
+      const mintResponse = await fetch('https://4c4aefba126a.ngrok-free.app/mintNFT', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
